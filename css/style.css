@@ -1,0 +1,19 @@
+
+body{
+  background-color: black;
+  color: beige;
+  text-align: center;
+}
+
+table{
+  margin:auto;
+  width: 500px;
+  height: 500px;
+  border: 2px orange solid;
+}
+
+td {
+  width:33%;
+  height:33%;
+  border: 1px solid orange;
+}
