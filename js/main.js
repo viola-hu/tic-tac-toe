@@ -108,6 +108,8 @@ $('td').on('click', function(e){
   //******* 3, loop through backward diagonal direction '\' *******
   // if this input's locationX !== locationY, means, it's not in the center backward diagonal line,
   // then there's no need to check backward diagonal direction！
+  // as the only way for this kind of location to win is through horizontal and vertical line,
+  // which should have been checked on the above 2x steps!
   if (locationX === locationY) {
     let matchingNumberBackwardDiagnal = 0;
 
@@ -128,6 +130,7 @@ $('td').on('click', function(e){
   //******* 4, loop through forward diagonal direction '/' *******
   // if this input's (locationX + locationY) !== (array.length - 1), means, it's not in the center forward diagonal line,
   // then there's no need to check forward diagonal direction!
+  // in that situtaion, winningOrNot remain false;
   if ((locationX + locationY) === (boardLength - 1)){
     let matchingNumberForwardDiagnal = 0;
 
@@ -143,11 +146,13 @@ $('td').on('click', function(e){
       return winningOrNot;
     }
   }
-
-  return winningOrNot;
 });
 
-
+// So far, the above logic should work for multiple line board,
+// need to think about output into DOM tomorrow
+// also separate jQuery with vanilla JS
+// also further refactor
+// finally, decorate UI!
 
 
 
