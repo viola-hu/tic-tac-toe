@@ -5,9 +5,11 @@ body{
   text-align: center;
 }
 
-.hidden{
-  visibility: hidden;
+button{
+  color: white
 }
+
+
 
 table{
   margin:auto;
