@@ -5,6 +5,10 @@ body{
   text-align: center;
 }
 
+.hidden{
+  visibility: hidden;
+}
+
 table{
   margin:auto;
   width: 500px;
@@ -16,4 +20,8 @@ td {
   width:33%;
   height:33%;
   border: 1px solid orange;
+}
+
+h2 {
+  height: 30px;
 }
