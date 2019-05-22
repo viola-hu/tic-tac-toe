@@ -1,39 +1,72 @@
+/* * {border: red solid  1px} */
 
 body{
   background-color: black;
   color: beige;
   text-align: center;
+  box-sizing: border-box;
 }
 
-h1 {
 
-  -moz-animation: example4 10s ease-out;
- -webkit-animation: example4 10s ease-out;
- animation: example4 10s ease-out;
+h2 {
+  -moz-animation: example4 5s ease-out;
+  -webkit-animation: example4 5s ease-out;
+  animation: example4 5s ease-out;
   /* -webkit-animation: h1 10s ease-out; */
 }
 
-div{
-  margin: 20px;
+@keyframes example4 {
+ 0%   {
+ -moz-transform: translateX(200%); /* Firefox bug fix */
+ -webkit-transform: translateX(200%); /* Firefox bug fix */
+ transform: translateX(200%);
+ }
+ 100% {
+ -moz-transform: translateX(0%); /* Firefox bug fix */
+ -webkit-transform: translateX(0%); /* Firefox bug fix */
+ transform: translateX(0%);
+ }
 }
 
-button{
+
+
+/* good */
+#newGame{
   background-color: beige;
   color: orange;
-  font-size: 16px;
-  border-radius: 20px
+  font-size: 20px;
+  border-radius: 20px;
+  font-weight:800;
 }
 
+div#table{
+  display: inline-block;
+  width:69%;
+  /* text-align: center; */
+  /* position:relative; */
+  border: 0.5px red solid;
+}
 
+div#aside{
+  display: inline-block;
+  /* margin:100px; */
+  width: 29%;
+  border: 0.5px red solid;
+}
 
 table{
-  margin:auto;
-  width: 500px;
-  height: 500px;
+  /* position: relative; */
+  /* right:10%; */
+  /* top: 25%; */
+  width: 400px;
+  height: 400px;
   border: 2px orange solid;
+  /* padding: 10px; */
 }
 
+/* good */
 td {
+  text-align: center;
   width:33%;
   height:33%;
   border: 1px solid orange;
@@ -41,5 +74,4 @@ td {
 
 h2 {
   height: 30px;
-
 }

@@ -15,39 +15,55 @@ const ticTacToe = {
   validClickNumber: 0,
 
   // store the UI input, X or Y, into a variable for later use!
-  xOrY:"",
+  currentPlayerSymbol:"",
 
-  putXOrYIntoDOM: function(){
+  putcurrentPlayerSymbolIntoDOM: function(){
     if (this.validClickNumber % 2 === 0){
       //  when validClickNumber is even, input 'X', when odd, input 'O'. As validClickNumber starts from 0, so the first input is always 'X'
       this.validClickNumber += 1; // update the total number of valid clicks
-      this.xOrY = 'X';// update xOrY variable's value, to be used for storing click content into board array later
-      return this.xOrY;
+      this.currentPlayerSymbol = 'X';// update currentPlayerSymbol variable's value, to be used for storing click content into board array later
+      return this.currentPlayerSymbol;
     }else {
       this.validClickNumber += 1;
-      this.xOrY = 'O';
-      return this.xOrY;
+      this.currentPlayerSymbol = 'O';
+      return this.currentPlayerSymbol;
     }
   },
 
-  putXOrYOntoBoard: function(locationX,locationY){
-    this.board[locationX][locationY] = this.xOrY;
+  putcurrentPlayerSymbolOntoBoard: function(locationX,locationY){
+    this.board[locationX][locationY] = this.currentPlayerSymbol;
   },
 
   // this is to store return value from the click event callback function, remembering if the game has finished or not!
   gameIsOver: false,
+
+  winner:"",
+
+  wonNumberOfPlayerX:0,
+
+  wonNumberOfPlayerO:0,
+
+  recordWonNumber: function(){
+    if(this.winner === 'X'){
+      this.wonNumberOfPlayerX += 1;
+    } else{
+      this.wonNumberOfPlayerO += 1;
+    }
+  },
 
   checkHorizontal: function(locationX){
     let matchingNumberHorizontal = 0;
     const arrayForCheck = this.board[locationX];
 
     for (var i = 0; i < this.boardLength; i++) {
-      if (arrayForCheck[i] === this.xOrY){
+      if (arrayForCheck[i] === this.currentPlayerSymbol){
         matchingNumberHorizontal += 1;
       }
     }
 
     if (matchingNumberHorizontal === this.boardLength){
+      this.winner = this.currentPlayerSymbol;
+      this.recordWonNumber();
       this.gameIsOver = true;
       return this.gameIsOver;
     }
@@ -57,12 +73,14 @@ const ticTacToe = {
     let matchingNumberVertical = 0;
 
     for (var i = 0; i < this.boardLength; i++) {
-      if(this.board[i][locationY] === this.xOrY){
+      if(this.board[i][locationY] === this.currentPlayerSymbol){
         matchingNumberVertical += 1;
       }
     }
 
     if (matchingNumberVertical === this.boardLength){
+      this.winner = this.currentPlayerSymbol;
+      this.recordWonNumber();
       this.gameIsOver = true;
       return this.gameIsOver ;
     }
@@ -72,12 +90,14 @@ const ticTacToe = {
     let matchingNumberBackwardDiagonal = 0;
 
     for (var i = 0; i < this.boardLength; i++) {
-      if(this.board[i][i] === this.xOrY) {
+      if(this.board[i][i] === this.currentPlayerSymbol) {
         matchingNumberBackwardDiagonal += 1;
       }
     }
 
     if (matchingNumberBackwardDiagonal === this.boardLength){
+      this.winner = this.currentPlayerSymbol;
+      this.recordWonNumber();
       this.gameIsOver = true;
       return this.gameIsOver;
     }
@@ -87,12 +107,14 @@ const ticTacToe = {
     let matchingNumberForwardDiagonal = 0;
 
     for (var i = 0; i < this.boardLength; i++) {
-      if(this.board[i][this.boardLength - 1 - i] === this.xOrY) {
+      if(this.board[i][this.boardLength - 1 - i] === this.currentPlayerSymbol) {
         matchingNumberForwardDiagonal += 1;
       }
     }
 
     if (matchingNumberForwardDiagonal === this.boardLength){
+      this.winner = this.currentPlayerSymbol;
+      this.recordWonNumber();
       this.gameIsOver = true;
       return this.gameIsOver;
     }
@@ -105,7 +127,36 @@ const ticTacToe = {
     }
   },
 
+  roundNumber:1,
+
+  startNewGame: function(){
+    for (var i = 0; i < this.boardLength; i++) {
+      this.board[i].fill('');
+    }
+    this.validClickNumber = 0;
+    this.currentPlayerSymbol = "";
+    this.gameIsOver = false;
+    this.winner = "";
+    this.roundNumber += 1;
+  },
+
 };
+
+
+
+
+//******* if any winner, what to do on UI, pre-determine pattern *******
+const whatToShowOnWinning = function() {
+  $('h2').html(`Congrats! Player ${ticTacToe.winner} won!!!`);
+
+  if (ticTacToe.winner === 'X') {
+    $('#playerX').html(`Player X : ${ticTacToe.wonNumberOfPlayerX}`);
+  } else {
+    $('#playerO').html(`Player O : ${ticTacToe.wonNumberOfPlayerO}`);
+  }
+};
+// better not to put function inside the click event, as every time the click event is triggered, it will re-create the function again and again!
+
 
 
 // click event, for each click, what to do!
@@ -130,7 +181,7 @@ $('td').on('click', function(e){
   $('h2').html(' ');
 
   // call pre-defined function to put 'X' or 'Y' into UI/DOM
-  $(this).html(ticTacToe.putXOrYIntoDOM());
+  $(this).html(ticTacToe.putcurrentPlayerSymbolIntoDOM());
 
   //****** Step 2, store the UI input into board array ******
   // get the click event object data - target property, it prints out the pure DOM element that user just clicked, including all its ATTRIBUTEs and contents!
@@ -145,9 +196,9 @@ $('td').on('click', function(e){
 
   // use the attribute value X and Y to locate where in the 2D array to store the click content
   // since it's already been checked if the clicked space is occupied or not on the above steps, if occupied, it will return the function and won't get to this step.
-  // This, on top of the fact that this click is not on an occupied place, can put the this.xOrY directly into the board array!
+  // This, on top of the fact that this click is not on an occupied place, can put the this.currentPlayerSymbol directly into the board array!
   // use pre-determined game object function to store the input into board array of the game object.
-  ticTacToe.putXOrYOntoBoard(locationX, locationY);
+  ticTacToe.putcurrentPlayerSymbolOntoBoard(locationX, locationY);
 
   //****** Step 3, check matching spaces and decide if any winning ******
   //**************** Core Logic *******************
@@ -158,13 +209,13 @@ $('td').on('click', function(e){
 
   //******* 1) loop through horizontal direction *******
   if (ticTacToe.checkHorizontal(locationX)){
-    $('h2').html('Congrats! You won!!!');
+    whatToShowOnWinning();
     return;
   }
 
   //******* 2) loop through vertical direction *******
   if (ticTacToe.checkVertical(locationY)){
-    $('h2').html('Congrats! You won!!!');
+    whatToShowOnWinning();
     return;
   }
 
@@ -175,7 +226,7 @@ $('td').on('click', function(e){
   // which should have been checked on the above 2x steps!
   if (locationX === locationY) {
     if(ticTacToe.checkBackwardDiagonal()) {
-      $('h2').html('Congrats! You won!!!');
+      whatToShowOnWinning();
       return;
     }
   }
@@ -183,18 +234,31 @@ $('td').on('click', function(e){
   //******* 4) loop through forward diagonal direction '/' *******
   if ((locationX + locationY) === (ticTacToe.boardLength - 1)){
     if(ticTacToe.checkForwardDiagonal()){
-      $('h2').html('Congrats! You won!!!');
+      whatToShowOnWinning();
       return;
     }
   }
 
-  // ****** 5) no winning after all *******
+  // ****** 5) after above checks, if no winning and up to 9 clicks, gameover *******
   if(ticTacToe.checkIfNoWinning()){
     $('h2').html('Drew!');
     return;
   }
+
 });
 // So far, the above logic should work for multiple line board,
+
+
+
+// once clicking the new game button, reset UI and call pre-determined startNewGame to reset background info.
+$('#newGame').on('click', function(){
+  $('td').html('');
+  $('h2').html('');
+  ticTacToe.startNewGame();
+  $('#gameRound').html(`Round ${ticTacToe.roundNumber}`);
+});
+
+
 
 
 

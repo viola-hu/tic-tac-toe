@@ -10,29 +10,45 @@
 <body>
   <h1>tick-tack-toe! let's do it!</h1>
 
-  <marque><h2> </h2></marque>
+  <h2> </h2>
 
-  <div>
-    <button type="button" > NEW GAME </button>
+
+  <div id="table">
+    hello!!
+    <table>
+      <tbody>
+        <tr>
+          <td id="0 0"></td>
+          <td id="0 1"></td>
+          <td id="0 2"></td>
+        </tr>
+        <tr>
+          <td id="1 0"></td>
+          <td id="1 1"></td>
+          <td id="1 2"></td>
+        </tr>
+        <tr>
+          <td id="2 0"></td>
+          <td id="2 1"></td>
+          <td id="2 2"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <table>
-    <tr>
-      <td id="0 0"></td>
-      <td id="0 1"></td>
-      <td id="0 2"></td>
-    </tr>
-    <tr>
-      <td id="1 0"></td>
-      <td id="1 1"></td>
-      <td id="1 2"></td>
-    </tr>
-    <tr>
-      <td id="2 0"></td>
-      <td id="2 1"></td>
-      <td id="2 2"></td>
-    </tr>
-  </table>
+  <div id="aside">
+
+    <button id="newGame" type="button" > NEW GAME </button>
+
+    <h3 id="gameRound">Round 1</h3>
+
+    <p>Score</p>
+
+    <p id="playerX">Player X : 0</p>
+    <p id="playerO">Player O : 0</p>
+
+  </div>
+
 <script src="js/jquery.js"></script>
 <script src="js/test.js"></script>
 </body>
