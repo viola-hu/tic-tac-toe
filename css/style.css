@@ -3,17 +3,39 @@
 body{
   background-color: black;
   color: beige;
-  text-align: center;
+  /* text-align: center; */
   box-sizing: border-box;
+  font
 }
 
 
+h1{
+  text-align: center;
+  color: orange;
+}
+
+.scale{
+  text-align: center;
+}
+
+span{
+  padding: 0 15px;
+  font-style: italic;
+  background-color: beige;
+  color: orange;
+  border-radius: 20px;
+  margin: 15px;
+}
+
 h2 {
+  /* border: red solid  1px; */
+  text-align:center;
   -moz-animation: example4 5s ease-out;
   -webkit-animation: example4 5s ease-out;
   animation: example4 5s ease-out;
   /* -webkit-animation: h1 10s ease-out; */
 }
+
 
 @keyframes example4 {
  0%   {
@@ -29,37 +51,61 @@ h2 {
 }
 
 
-
-/* good */
-#newGame{
-  background-color: beige;
-  color: orange;
-  font-size: 20px;
-  border-radius: 20px;
-  font-weight:800;
-}
-
 div#table{
   display: inline-block;
-  width:69%;
-  /* text-align: center; */
+  position:absolute;
+  right: 40%;
+  /* width:80%; */
+  text-align: center;
   /* position:relative; */
-  border: 0.5px red solid;
+  /* border: 0.5px red solid; */
 }
 
 div#aside{
   display: inline-block;
+  position: absolute;
+  left: 60%;
+  text-align: center;
+  padding:0px 100px;
+
   /* margin:100px; */
-  width: 29%;
-  border: 0.5px red solid;
+  /* width: 20%; */
+  /* border: 0.5px red solid; */
+}
+
+/* good */
+#newGame{
+  background-color: orange;
+  color: beige;
+  font-size: 24px;
+  border-radius: 20px;
+  font-weight:800;
+  margin: 20px auto;
+  padding: 5px 14px;
+  border: 0px;
+}
+
+#gameRound{
+  margin: 20px auto 40px;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.score{
+  font-size: 20px;
+}
+
+.player{
+  font-size: 20px;
+  color: orange;
 }
 
 table{
   /* position: relative; */
   /* right:10%; */
   /* top: 25%; */
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   border: 2px orange solid;
   /* padding: 10px; */
 }
