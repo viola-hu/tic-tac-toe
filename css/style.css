@@ -5,8 +5,23 @@ body{
   text-align: center;
 }
 
+h1 {
+
+  -moz-animation: example4 10s ease-out;
+ -webkit-animation: example4 10s ease-out;
+ animation: example4 10s ease-out;
+  /* -webkit-animation: h1 10s ease-out; */
+}
+
+div{
+  margin: 20px;
+}
+
 button{
-  color: white
+  background-color: beige;
+  color: orange;
+  font-size: 16px;
+  border-radius: 20px
 }
 
 
@@ -26,4 +41,5 @@ td {
 
 h2 {
   height: 30px;
+
 }
