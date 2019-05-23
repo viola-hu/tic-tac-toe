@@ -1,17 +1,18 @@
 /* * {border: red solid  1px} */
 
 body{
-  background-color: black;
+  background-color: rgb(21, 29, 38);
   color: beige;
   /* text-align: center; */
   box-sizing: border-box;
-  font
+  font-family: 'Love Ya Like A Sister', cursive;
 }
 
 
 h1{
   text-align: center;
   color: orange;
+  font-size: 40px;
 }
 
 .scale{
@@ -54,7 +55,7 @@ h2 {
 div#table{
   display: inline-block;
   position:absolute;
-  right: 40%;
+  right: 45%;
   /* width:80%; */
   text-align: center;
   /* position:relative; */
@@ -64,7 +65,7 @@ div#table{
 div#aside{
   display: inline-block;
   position: absolute;
-  left: 60%;
+  left: 55%;
   text-align: center;
   padding:0px 100px;
 
@@ -77,13 +78,14 @@ div#aside{
 #newGame{
   background-color: orange;
   color: beige;
-  font-size: 24px;
+  font-size: 26px;
   border-radius: 20px;
-  font-weight:800;
-  margin: 20px auto;
+  font-weight:900;
+  margin: 50px auto 10px;
   padding: 5px 14px;
   border: 0px;
   outline: none;
+  font-family: 'Love Ya Like A Sister', cursive;
 }
 
 #gameRound{
@@ -97,7 +99,7 @@ div#aside{
 }
 
 .player{
-  font-size: 20px;
+  font-size: 30px;
   color: orange;
 }
 
@@ -117,8 +119,14 @@ td {
   width:33%;
   height:33%;
   border: 1px solid orange;
+  font-size: 250%;
 }
 
 h2 {
   height: 30px;
+  font-style: italic;
+}
+
+#draw {
+  font-size: 20px;
 }

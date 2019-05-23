@@ -26,6 +26,8 @@ const ticTacToe = {
 
   wonNumberOfPlayerO:0,
 
+  drawNumber:0,
+
   roundNumber:1,
 
   putcurrentPlayerSymbolIntoDOM: function(){
@@ -122,8 +124,9 @@ const ticTacToe = {
     }
   },
 
-  checkIfDrew: function(){
+  checkIfDraw: function(){
     if (this.validClickNumber === this.boardLength ** 2){
+      this.drawNumber += 1;
       this.gameIsOver = true;
       return this.gameIsOver;
     }
@@ -165,13 +168,12 @@ const ticTacToe = {
     // if gameIsOver is still false, could either be at the beginning of the game or user wanted to switch to a different scale in the middle of the current round, as long as there's no result for the current round, should not count it as finished, unless they click 'newGame'!
     // no need to reset user score, keep accumulating
   },
-
 };
 
 
 
 
-//******* if any winner, what to do on UI, pre-determine pattern *******
+//#if any winner, what to do on UI, pre-determine pattern
 const whatToShowOnWinning = function() {
   $('h2').html(`Congrats! Player ${ticTacToe.winner} won!!!`);
 
@@ -182,7 +184,8 @@ const whatToShowOnWinning = function() {
   }
 };
 
-const howToChangeBoardScaleOnUI = function() {
+//#what to show when changing boardScale on UI
+const changeBoardScaleOnUI = function() {
   //1) clear h2, in case any previous content remains
   $('h2').html('');
 
@@ -212,11 +215,10 @@ const howToChangeBoardScaleOnUI = function() {
   //5) *** no need to change score!!!
 }
 
-//#during Game, click each space - td, event triggered
-// event delegation!
+//#during Game, click each space - <td>, using event delegation!
 $(document).on('click', 'td', function(e){
 
-  //****** Step 1, on each click, show input on UI, handle game over situation and clicks on occupied spaces ******
+  // Step 1, on each click, show input on UI, handle game over situation and clicks on occupied spaces
   // first to check if the game is over or not,
   // if yes, it should just return the function, so no need to run the rest code.
   // if not, can continue the game, and check if a space is occupied or not as below.
@@ -232,13 +234,13 @@ $(document).on('click', 'td', function(e){
   }
 
   // when it comes to this step, means, the game hasn't finished.
-  // in case the last click was on an occupied space and added content to h2 element in DOM already, for the current round, need to RESET it to empty, and restart the check if the clicked space this time is occupied or not and move on to this step if not.
+  // in case the last click was on an occupied space and added content to h2 element in DOM already, for the current round, up to this step, need to RESET it to empty.
   $('h2').html(' ');
 
   // call pre-defined function to put 'X' or 'Y' into UI/DOM
   $(this).html(ticTacToe.putcurrentPlayerSymbolIntoDOM());
 
-  //****** Step 2, store the UI input into board array ******
+  // Step 2, store the UI input into board array
   // get the click event object data - target property, it prints out the pure DOM element that user just clicked, including all its ATTRIBUTEs and contents!
   // store this target DOM element into a variable to utilise its id attribute!!!
   const clickedTarget = e.target;
@@ -255,10 +257,10 @@ $(document).on('click', 'td', function(e){
   // use pre-determined game object function to store the input into board array of the game object.
   ticTacToe.putcurrentPlayerSymbolOntoBoard(locationX, locationY);
 
-  //****** Step 3, check matching spaces and decide if any winning ******
+  //Step 3, check matching spaces and decide if any winning
   //**************** Core Logic *******************
   // loop through the whole 2D array to see if there's any existing item matching this pass-in click content on its 4x directions ‘米 ’.
-  // if the total matching number on any of the 4x directions === board.length(i.e. in this case is 3), then winner!!
+  // if the total matching number on any of the 4x directions === board.length(i.e.3/4/5), then winner!!
   // this logic should work for any size of board(n * n)
   // on each direction only need to loop 'board.length'x times, store it in a variable for multiple uses
 
@@ -295,16 +297,15 @@ $(document).on('click', 'td', function(e){
   }
 
   // ****** 5) after above checks, if no winning and up to 9 clicks, gameover *******
-  if(ticTacToe.checkIfDrew()){
-    $('h2').html('Drew!');
+  if(ticTacToe.checkIfDraw()){
+    $('h2').html('Draw!');
+    $('#draw').html(`Draw : ${ticTacToe.drawNumber}`);
     return;
   }
 
 });
-// So far, the above logic should work for multiple line board,
 
-//#newGame, click event
-//once clicking the new game button, reset UI and call pre-determined startNewGame to reset background info.
+//#newGame, click to reset UI and call pre-determined startNewGame function to reset logic side data.
 $('#newGame').on('click', function(){
   $('td').html('');
   $('h2').html('');
@@ -312,7 +313,7 @@ $('#newGame').on('click', function(){
   $('#gameRound').html(`Round ${ticTacToe.roundNumber}`);
 });
 
-//#click on 3X3
+//#click on 3X3, to reset the UI and logic data
 $('span#3').on('click', function(e){
 
   //1, Step1: retrieve event object data to create new board and update logic variables etc.
@@ -325,10 +326,10 @@ $('span#3').on('click', function(e){
 
   //3, Step3: what to change on UI
   //create a function that can be applied to any of the scale button
-  howToChangeBoardScaleOnUI();
+  changeBoardScaleOnUI();
 });
 
-//#click on 4X4
+//#click on 4X4, to reset the UI and logic data
 $('span#4').on('click', function(e){
 
   //1, Step1: retrieve event object data to create new board and update logic variables etc.
@@ -341,10 +342,10 @@ $('span#4').on('click', function(e){
 
   //3, Step3: what to change on UI
   //create a function that can be applied to any of the scale button
-  howToChangeBoardScaleOnUI();
+  changeBoardScaleOnUI();
 });
 
-//#click on 5X5
+//#click on 5X5, to reset the UI and logic data
 $('span#5').on('click', function(e){
 
   //1, Step1: retrieve event object data to create new board and update logic variables etc.
@@ -357,41 +358,8 @@ $('span#5').on('click', function(e){
 
   //3, Step3: what to change on UI
   //create a function that can be applied to any of the scale button
-  howToChangeBoardScaleOnUI();
+  changeBoardScaleOnUI();
 });
-
-
-
-
-
-
-
-// event callback, on each event occasion
-// - retrieves DOM data
-// - pass the retrieved DOM data to core logic functions (stored in game object) which determine whether to change something and return value accordingly
-// - based on the return value from the core logic functions, event callback communicates with DOM to make the actual change happen in DOM/UI
-
-// - inside UI, better not to put function inside the click event, as every time the click event is triggered, it will re-create the function again and again!
-
-
-
-
-
-
-
-// 1>>>> put all check loops into separate functions inside an object as methods, make click event callback look neat! -- done!
-
-// 2>>>> think about next like another round! -- done!
-
-// 3>>>> finally, decorate UI!
-
-
-
-
-
-
-
-
 
 
 
@@ -402,8 +370,15 @@ $('span#5').on('click', function(e){
 // tic-tac-toe
 // Good Practice:
 
-// As it now has User Interface, not only the vanilla JS at the core logic part, need to connect to the DOM to get users input value and store the data to the back core logic and then process. After the processing, return the result and communicate with DOM again to output the result onto the interface to for user view!!!
+// event callback, on each event occasion
+// - retrieves DOM data
+// - pass the retrieved DOM data to core logic functions (stored in game object) which determine whether to change something and return value accordingly
+// - based on the return value from the core logic functions, event callback communicates with DOM to make the actual change happen in DOM/UI
 
-// - user's input data from the interface lives in the DOM, you can still use jQuery to talk to the DOM and get these data, and apply logic directly at the same time. But you will need to repeatedly use jQuery to get these data for the whole process and it's SLOWWWW!
+// For UI part, better not to put function inside the event handler, as every time the event is triggered, it will re-create the function again and again!
 
-// - thus, as good practice, it's better to store user's input data from the interface into variables on your JS code, try to avoid repeatedly using jQuery to get DOM data, and then work on the stored data in your variable using vanilla JS logic to process under the hood (not on DOM directly)!
+// As it now has User Interface, not only the vanilla JS at the core logic part, need to connect to the DOM to get users input value and store the data to the back core logic and then process. After processing, return the result and communicate with DOM again to output the result onto the interface to for user view!!!
+
+// user's input data from the interface lives in the DOM, you can still use jQuery to talk to the DOM and get these data, and apply logic directly at the same time. But you will need to repeatedly use jQuery to get these data for the whole process and it's SLOWWWW!
+
+// thus, as good practice, it's better to store user's input data from the interface into variables on your JS code, try to avoid repeatedly using jQuery to get DOM data, and then work on the stored data in your variable using vanilla JS logic to process under the hood (not on DOM directly)!
