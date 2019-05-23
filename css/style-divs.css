@@ -8,6 +8,20 @@ body{
   font
 }
 
+.col {
+  /* border: 1px solid red; */
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+}
+
+#leftCol {
+  width: 60%;
+}
+
+#rightCol{
+  width: 40%;
+}
 
 h1{
   text-align: center;
@@ -53,8 +67,8 @@ h2 {
 
 div#table{
   display: inline-block;
-  position:absolute;
-  right: 40%;
+  /* position:absolute; */
+  /* right: 40%; */
   /* width:80%; */
   text-align: center;
   /* position:relative; */
@@ -62,16 +76,32 @@ div#table{
 }
 
 div#aside{
-  display: inline-block;
-  position: absolute;
-  left: 60%;
+  /* display: inline-block; */
+  /* position: absolute; */
+  /* left: 60%; */
   text-align: center;
-  padding:0px 100px;
+  /* padding:0px 100px; */
 
   /* margin:100px; */
   /* width: 20%; */
   /* border: 0.5px red solid; */
 }
+
+
+/* Handle smaller screens! */
+@media only screen and (max-width: 500px) {
+  .col {
+    display: block;
+  }
+  #leftCol {
+    width: 100%;
+  }
+
+  #rightCol{
+    width: 100%;
+  }
+}
+
 
 /* good */
 #newGame{
@@ -83,7 +113,6 @@ div#aside{
   margin: 20px auto;
   padding: 5px 14px;
   border: 0px;
-  outline: none;
 }
 
 #gameRound{
@@ -105,8 +134,8 @@ table{
   /* position: relative; */
   /* right:10%; */
   /* top: 25%; */
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   border: 2px orange solid;
   /* padding: 10px; */
 }

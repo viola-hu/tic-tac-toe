@@ -17,6 +17,17 @@ const ticTacToe = {
   // store the UI input, X or Y, into a variable for later use!
   currentPlayerSymbol:"",
 
+  // this is to store return value from the click event callback function, remembering if the game has finished or not!
+  gameIsOver: false,
+
+  winner:"",
+
+  wonNumberOfPlayerX:0,
+
+  wonNumberOfPlayerO:0,
+
+  roundNumber:1,
+
   putcurrentPlayerSymbolIntoDOM: function(){
     if (this.validClickNumber % 2 === 0){
       //  when validClickNumber is even, input 'X', when odd, input 'O'. As validClickNumber starts from 0, so the first input is always 'X'
@@ -34,15 +45,6 @@ const ticTacToe = {
     this.board[locationX][locationY] = this.currentPlayerSymbol;
   },
 
-  // this is to store return value from the click event callback function, remembering if the game has finished or not!
-  gameIsOver: false,
-
-  winner:"",
-
-  wonNumberOfPlayerX:0,
-
-  wonNumberOfPlayerO:0,
-
   recordWonNumber: function(){
     if(this.winner === 'X'){
       this.wonNumberOfPlayerX += 1;
@@ -55,7 +57,7 @@ const ticTacToe = {
     let matchingNumberHorizontal = 0;
     const arrayForCheck = this.board[locationX];
 
-    for (var i = 0; i < this.boardLength; i++) {
+    for (let i = 0; i < this.boardLength; i++) {
       if (arrayForCheck[i] === this.currentPlayerSymbol){
         matchingNumberHorizontal += 1;
       }
@@ -72,7 +74,7 @@ const ticTacToe = {
   checkVertical: function(locationY){
     let matchingNumberVertical = 0;
 
-    for (var i = 0; i < this.boardLength; i++) {
+    for (let i = 0; i < this.boardLength; i++) {
       if(this.board[i][locationY] === this.currentPlayerSymbol){
         matchingNumberVertical += 1;
       }
@@ -89,7 +91,7 @@ const ticTacToe = {
   checkBackwardDiagonal: function (){
     let matchingNumberBackwardDiagonal = 0;
 
-    for (var i = 0; i < this.boardLength; i++) {
+    for (let i = 0; i < this.boardLength; i++) {
       if(this.board[i][i] === this.currentPlayerSymbol) {
         matchingNumberBackwardDiagonal += 1;
       }
@@ -106,7 +108,7 @@ const ticTacToe = {
   checkForwardDiagonal: function(){
     let matchingNumberForwardDiagonal = 0;
 
-    for (var i = 0; i < this.boardLength; i++) {
+    for (let i = 0; i < this.boardLength; i++) {
       if(this.board[i][this.boardLength - 1 - i] === this.currentPlayerSymbol) {
         matchingNumberForwardDiagonal += 1;
       }
@@ -127,10 +129,8 @@ const ticTacToe = {
     }
   },
 
-  roundNumber:1,
-
   startNewGame: function(){
-    for (var i = 0; i < this.boardLength; i++) {
+    for (let i = 0; i < this.boardLength; i++) {
       this.board[i].fill('');
     }
     this.validClickNumber = 0;
@@ -141,32 +141,29 @@ const ticTacToe = {
   },
 
   // boardScale retrieved from UI, and pass in here to generate new array
-  create2dBoard: function(boardScale) {
-    const oneDArray = [];
-    for (var i = 0; i < boardScale; i++) {
-      oneDArray.push("");
-    }
+  changeBoardScale: function(boardScale) {
+    //use loop to create a new 2d board
     const twoDArray = [];
-    for (var i = 0; i < boardScale; i++) {
+    for (let i = 0; i < boardScale; i++) {
+      const oneDArray = [];
+      for (let i = 0; i < boardScale; i++) {
+        oneDArray.push("");
+      }
       twoDArray.push(oneDArray);
     }
 
     //reset related data in core logic variables
-    this.board = twoDArray; // update the new 2xD array
+    this.board = twoDArray; // re-assign the new 2d board to this.board
     this.boardLength = boardScale; // update boardLength to new boardScale, i.e. 3/4/5
     this.validClickNumber = 0;
     this.currentPlayerSymbol = "";
-    this.gameIsOver = false;
     this.winner = "";
-
-    //meanwhile, reset game by calling in-object function, previous score should accumulate.
-    //if want to start from 0 score, need to refresh page.
-    this.startNewGame();
-    //??????????????????????????????????????????????????????????
-    // whether or not to count round +1 when switiching to a different scale, different cases could be different, either need to +1 or no need!
-
-
-    //A: if gameIsOver === true, when clicking the scale n*n, it should add another round; if gameIsOver === false, which means, either at the beginning of the round or in the middle of the current round but didn't want to continue, switch scale to redo the current round, shouldn't count round number!!! if-else is enough!!
+    if (this.gameIsOver === true){
+      this.roundNumber += 1;
+      this.gameIsOver = false;
+    }  // else, remain the current game roundNumber
+    // if gameIsOver is still false, could either be at the beginning of the game or user wanted to switch to a different scale in the middle of the current round, as long as there's no result for the current round, should not count it as finished, unless they click 'newGame'!
+    // no need to reset user score, keep accumulating
   },
 
 };
@@ -184,12 +181,42 @@ const whatToShowOnWinning = function() {
     $('#playerO').html(`Player O : ${ticTacToe.wonNumberOfPlayerO}`);
   }
 };
-// better not to put function inside the click event, as every time the click event is triggered, it will re-create the function again and again!
+
+const howToChangeBoardScaleOnUI = function() {
+  //1) clear h2, in case any previous content remains
+  $('h2').html('');
+
+  //2) create a new visibile board table on UI, with according id inside each td element!!!
+  $('tbody').html('');
+  for (let k = 0; k < ticTacToe.boardLength; k++) {
+    $('tbody').append('<tr id="new">');
+    for (let i = 0; i < ticTacToe.boardLength; i++) {
+        $('tr#new').append('<td id="new">');
+        $('td#new').attr('id',`${k} ${i}`);
+      }
+    $('tr#new').attr('id','');
+  }
+
+  //3) need to adjust css as well!!!
+  // td: 33%x33%, 25%x25%, 20x20%
+  // table size, keep 400x400, ok
+  $('td').css({
+    width:(100/ticTacToe.boardLength)+ '%',
+    height:(100/ticTacToe.boardLength)+ '%'
+  });
 
 
+  //4) update roundNumber anyway, whether or not to change roundNumber is decided by the logic part, DOM only retrieve the updated value from logic and render in UI
+  $('#gameRound').html(`Round ${ticTacToe.roundNumber}`);
 
-// click event, for each click, what to do!
-$('td').on('click', function(e){
+  //5) *** no need to change score!!!
+}
+
+//#during Game, click each space - td, event triggered
+// event delegation!
+$(document).on('click', 'td', function(e){
+// $('td').on('click', function(e){
+
   //****** Step 1, on each click, show input on UI, handle game over situation and clicks on occupied spaces ******
   // first to check if the game is over or not,
   // if yes, it should just return the function, so no need to run the rest code.
@@ -277,9 +304,8 @@ $('td').on('click', function(e){
 });
 // So far, the above logic should work for multiple line board,
 
-
-
-// once clicking the new game button, reset UI and call pre-determined startNewGame to reset background info.
+//#newGame, click event
+//once clicking the new game button, reset UI and call pre-determined startNewGame to reset background info.
 $('#newGame').on('click', function(){
   $('td').html('');
   $('h2').html('');
@@ -287,23 +313,58 @@ $('#newGame').on('click', function(){
   $('#gameRound').html(`Round ${ticTacToe.roundNumber}`);
 });
 
-
+//#click on 3X3
 $('span#3').on('click', function(e){
 
+  // console.log($(this).attr('id'));
+
+  //1, Step1: retrieve event object data to create new board and update logic variables etc.
   const clickElement = e.target; // pure DOM object - e.g. <span id='3'> 3 x 3</span>
-  const boardScale = parseInt($(clickElement).attr('id')); // id attribute is a string "3", parse it into integer!
+  const boardScale = parseInt($(clickElement).attr('id')); // id attribute is a string "3", parse it into integer number!
 
+  //2, Step2: update the logic side, by calling the logic object method and pass in the above new boardScale
+  // doing this first as will need to use the updated logic variables to output into UI
+  ticTacToe.changeBoardScale(boardScale);
 
-
-
-  // ticTacToe.
-
-
-
-
-
-
+  //3, Step3: what to change on UI
+  //create a function that can be applied to any of the scale button
+  howToChangeBoardScaleOnUI();
 });
+
+//#click on 4X4
+$('span#4').on('click', function(e){
+
+  //1, Step1: retrieve event object data to create new board and update logic variables etc.
+  const clickElement = e.target; // pure DOM object - e.g. <span id='3'> 3 x 3</span>
+  const boardScale = parseInt($(clickElement).attr('id')); // id attribute is a string "3", parse it into integer number!
+
+  //2, Step2: update the logic side, by calling the logic object method and pass in the above new boardScale
+  // doing this first as will need to use the updated logic variables to output into UI
+  ticTacToe.changeBoardScale(boardScale);
+
+  //3, Step3: what to change on UI
+  //create a function that can be applied to any of the scale button
+  howToChangeBoardScaleOnUI();
+});
+
+//#click on 5X5
+$('span#5').on('click', function(e){
+
+  //1, Step1: retrieve event object data to create new board and update logic variables etc.
+  const clickElement = e.target; // pure DOM object - e.g. <span id='3'> 3 x 3</span>
+  const boardScale = parseInt($(clickElement).attr('id')); // id attribute is a string "3", parse it into integer number!
+
+  //2, Step2: update the logic side, by calling the logic object method and pass in the above new boardScale
+  // doing this first as will need to use the updated logic variables to output into UI
+  ticTacToe.changeBoardScale(boardScale);
+
+  //3, Step3: what to change on UI
+  //create a function that can be applied to any of the scale button
+  howToChangeBoardScaleOnUI();
+});
+
+
+
 
 
 
@@ -313,6 +374,8 @@ $('span#3').on('click', function(e){
 // - pass the retrieved DOM data to core logic functions (stored in game object) which determine whether to change something and return value accordingly
 // - based on the return value from the core logic functions, event callback communicates with DOM to make the actual change happen in DOM/UI
 
+// - inside UI, better not to put function inside the click event, as every time the click event is triggered, it will re-create the function again and again!
+
 
 
 
@@ -321,7 +384,7 @@ $('span#3').on('click', function(e){
 
 // 1>>>> put all check loops into separate functions inside an object as methods, make click event callback look neat! -- done!
 
-// 2>>>> think about next like another round!
+// 2>>>> think about next like another round! -- done!
 
 // 3>>>> finally, decorate UI!
 

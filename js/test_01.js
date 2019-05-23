@@ -161,6 +161,7 @@ const whatToShowOnWinning = function() {
 
 // click event, for each click, what to do!
 $('td').on('click', function(e){
+
   //****** Step 1, on each click, show input on UI, handle game over situation and clicks on occupied spaces ******
   // first to check if the game is over or not,
   // if yes, it should just return the function, so no need to run the rest code.
