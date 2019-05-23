@@ -215,7 +215,6 @@ const howToChangeBoardScaleOnUI = function() {
 //#during Game, click each space - td, event triggered
 // event delegation!
 $(document).on('click', 'td', function(e){
-// $('td').on('click', function(e){
 
   //****** Step 1, on each click, show input on UI, handle game over situation and clicks on occupied spaces ******
   // first to check if the game is over or not,
@@ -315,8 +314,6 @@ $('#newGame').on('click', function(){
 
 //#click on 3X3
 $('span#3').on('click', function(e){
-
-  // console.log($(this).attr('id'));
 
   //1, Step1: retrieve event object data to create new board and update logic variables etc.
   const clickElement = e.target; // pure DOM object - e.g. <span id='3'> 3 x 3</span>
