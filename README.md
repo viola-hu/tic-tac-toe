@@ -30,7 +30,7 @@ https://viola-hu.github.io/tic-tac-toe/
 * jQuery
 
 ## __To Do__
-- [ ] add a reset score feature, instead of manually refreshing page at the moment
+- [x] add a reset score feature, instead of manually refreshing page at the moment
 - [ ] add feature of choosing avatars
 - [ ] add feature to let players decide who plays first
 - [ ] it's thoughtful to add prompt showing whose turn it is now
