@@ -75,21 +75,22 @@ div#aside{
 }
 
 /* good */
-#newGame{
+.button{
   background-color: orange;
   color: beige;
   font-size: 26px;
   border-radius: 20px;
   font-weight:900;
-  margin: 50px auto 10px;
+  margin: 20px auto;
   padding: 5px 14px;
   border: 0px;
   outline: none;
   font-family: 'Love Ya Like A Sister', cursive;
+  display: block;
 }
 
 #gameRound{
-  margin: 20px auto 40px;
+  margin: 30px auto;
   font-style: italic;
   font-size: 20px;
 }

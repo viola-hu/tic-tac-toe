@@ -378,6 +378,7 @@ $('span#5').on('click', function(e){
   changeBoardScaleOnUI();
 });
 
+//#reset score, reset UI looking
 $('#resetScore').on('click', function(){
   $('td,h2').html('');
   $('#gameRound').html(`Round 1`);
@@ -386,6 +387,8 @@ $('#resetScore').on('click', function(){
   $('#draw').html('Draw : 0');
   ticTacToe.resetScore();
 });
+
+
 
 
 
