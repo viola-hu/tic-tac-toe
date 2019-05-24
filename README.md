@@ -8,7 +8,8 @@ https://viola-hu.github.io/tic-tac-toe/
 
 
 ## __How it looks__
-![tic-tac-toe game image](/img/tic_tac_toe.png)
+
+<img alt="tic-tac-toe game image" src="img/tic_tac_toe.png" width="500px">
 
 ## __How to play__
 - 3x board scale options
